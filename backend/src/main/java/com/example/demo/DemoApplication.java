@@ -24,6 +24,8 @@ public class DemoApplication {
       @RequestParam String amount,
       @RequestParam(defaultValue = "0") String previousAmount) {
 
+    validateAmount(amount);
+
     int amountInCents = convertParamToInt(amount);
 
     Denomination[] newDenominations = doCalculation(amountInCents);
@@ -31,6 +33,8 @@ public class DemoApplication {
     // If previous param is present, calculate previous denomations in order to be
     // able to get the differences
     if (previousAmount != "0" && !previousAmount.isEmpty()) {
+      validateAmount(previousAmount);
+
       int oldAmount = convertParamToInt(previousAmount);
       Denomination[] oldDenominations = doCalculation(oldAmount);
       for (int i = 0; i < newDenominations.length; i++) {
@@ -47,6 +51,24 @@ public class DemoApplication {
     Map<String, String> error = new HashMap<>();
     error.put("error", e.getMessage());
     return ResponseEntity.badRequest().body(error);
+  }
+
+  private void validateAmount(String amount) {
+    if (amount == null || amount.isBlank()) {
+      throw new InvalidAmountException("Amount cannot be empty.");
+    }
+    try {
+      BigDecimal value = new BigDecimal(amount);
+      if (value.compareTo(BigDecimal.ZERO) <= 0) {
+        throw new InvalidAmountException("Amount must be greater than zero.");
+      }
+      if (value.scale() > 2) {
+        throw new InvalidAmountException("Amount cannot have more than 2 decimal places.");
+      }
+    } catch (NumberFormatException e) {
+      throw new InvalidAmountException(
+          "Invalid amount: " + amount + ". Use a positive number with up to 2 decimal places.");
+    }
   }
 
   private int convertParamToInt(String amount) {
