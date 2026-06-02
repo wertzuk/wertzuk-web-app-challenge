@@ -17,17 +17,46 @@ public class DemoApplication {
   }
 
   @GetMapping("/calculate")
-  public ResponseEntity<Denomination> calculate(
+  public ResponseEntity<Denomination[]> calculate(
       @RequestParam String amount,
       @RequestParam(defaultValue = "0") String previousAmount) {
 
     int amountInCents = convertParamToInt(amount);
 
-    return ResponseEntity.ok().body(null);
+    Denomination[] newDenominations = doCalculation(amountInCents);
+
+    return ResponseEntity.ok().body(newDenominations);
   }
 
   private int convertParamToInt(String amount) {
     return new BigDecimal(amount).movePointRight(2).intValue();
+  }
+
+  private Denomination[] doCalculation(int amount) {
+    Denomination[] denominations = {
+        new Denomination(20000),
+        new Denomination(10000),
+        new Denomination(5000),
+        new Denomination(2000),
+        new Denomination(1000),
+        new Denomination(500),
+        new Denomination(200),
+        new Denomination(100),
+        new Denomination(50),
+        new Denomination(20),
+        new Denomination(10),
+        new Denomination(5),
+        new Denomination(2),
+        new Denomination(1),
+    };
+
+    for (Denomination denom : denominations) {
+      int count = amount / denom.getValue();
+      denom.setCount(count);
+      amount = amount % denom.getValue();
+    }
+
+    return denominations;
   }
 
 }
