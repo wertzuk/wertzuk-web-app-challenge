@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import java.math.BigDecimal;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +21,13 @@ public class DemoApplication {
       @RequestParam String amount,
       @RequestParam(defaultValue = "0") String previousAmount) {
 
+    int amountInCents = convertParamToInt(amount);
+
     return ResponseEntity.ok().body(null);
+  }
+
+  private int convertParamToInt(String amount) {
+    return new BigDecimal(amount).movePointRight(2).intValue();
   }
 
 }
