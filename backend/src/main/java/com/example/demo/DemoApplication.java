@@ -22,7 +22,7 @@ public class DemoApplication {
   @GetMapping("/calculate")
   public ResponseEntity<Denomination[]> calculate(
       @RequestParam String amount,
-      @RequestParam(defaultValue = "0") String previousAmount) {
+      @RequestParam(required = false) String previousAmount) {
 
     validateAmount(amount);
 
@@ -32,7 +32,7 @@ public class DemoApplication {
 
     // If previous param is present, calculate previous denomations in order to be
     // able to get the differences
-    if (previousAmount != "0" && !previousAmount.isEmpty()) {
+    if (previousAmount != null && !previousAmount.isEmpty()) {
       validateAmount(previousAmount);
 
       int oldAmount = convertParamToInt(previousAmount);
