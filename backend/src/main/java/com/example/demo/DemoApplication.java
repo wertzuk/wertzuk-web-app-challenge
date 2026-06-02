@@ -1,10 +1,13 @@
 package com.example.demo;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,6 +40,13 @@ public class DemoApplication {
     }
 
     return ResponseEntity.ok().body(newDenominations);
+  }
+
+  @ExceptionHandler(InvalidAmountException.class)
+  public ResponseEntity<Map<String, String>> handleInvalidAmount(InvalidAmountException e) {
+    Map<String, String> error = new HashMap<>();
+    error.put("error", e.getMessage());
+    return ResponseEntity.badRequest().body(error);
   }
 
   private int convertParamToInt(String amount) {
