@@ -30,4 +30,16 @@ class DemoApplicationTests {
 				.andExpect(jsonPath("$[0].count").value(1));
 	}
 
+	@Test
+	void calculate_WithPreviousAmount_CalculatesDifferences() throws Exception {
+		mockMvc.perform(get("/calculate")
+				.param("amount", "150.00")
+				.param("previousAmount", "100.00"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$[1].value").value(10000))
+				.andExpect(jsonPath("$[1].difference").value(0))
+				.andExpect(jsonPath("$[2].value").value(5000))
+				.andExpect(jsonPath("$[2].difference").value(1));
+	}
+
 }
