@@ -25,6 +25,17 @@ public class DemoApplication {
 
     Denomination[] newDenominations = doCalculation(amountInCents);
 
+    // If previous param is present, calculate previous denomations in order to be
+    // able to get the differences
+    if (previousAmount != "0" && !previousAmount.isEmpty()) {
+      int oldAmount = convertParamToInt(previousAmount);
+      Denomination[] oldDenominations = doCalculation(oldAmount);
+      for (int i = 0; i < newDenominations.length; i++) {
+        int difference = newDenominations[i].getCount() - oldDenominations[i].getCount();
+        newDenominations[i].setDifference(difference);
+      }
+    }
+
     return ResponseEntity.ok().body(newDenominations);
   }
 
@@ -53,6 +64,7 @@ public class DemoApplication {
     for (Denomination denom : denominations) {
       int count = amount / denom.getValue();
       denom.setCount(count);
+      denom.setDifference(count);
       amount = amount % denom.getValue();
     }
 
