@@ -7,14 +7,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class CalculationService {
     public Denomination[] calculate(String amount, String previousAmount) {
-        int newAmount = convertParamToInt(amount);
+        int newAmount = convertAmountToCents(amount);
         Denomination[] denominations = doCalculation(newAmount);
         boolean includeDifference = previousAmount != null && !previousAmount.isEmpty();
 
         // If previous param is present, calculate previous denomations in order to be
         // able to get the differences
         if (includeDifference) {
-            int oldAmount = convertParamToInt(previousAmount);
+            int oldAmount = convertAmountToCents(previousAmount);
             Denomination[] oldDenominations = doCalculation(oldAmount);
             for (int i = 0; i < denominations.length; i++) {
                 int difference = denominations[i].getCount() - oldDenominations[i].getCount();
@@ -53,7 +53,7 @@ public class CalculationService {
         return denominations;
     }
 
-    private int convertParamToInt(String amount) {
+    private int convertAmountToCents(String amount) {
         return new BigDecimal(amount).movePointRight(2).intValue();
     }
 }
