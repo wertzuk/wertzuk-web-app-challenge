@@ -42,6 +42,7 @@ public class DemoApplication {
     Denomination[] newDenominations = service.calculate(amount, previousAmount);
 
     DenominationResponse[] response = Arrays.stream(newDenominations)
+        .filter(d -> d.getCount() > 0 || d.getDifference() != 0)
         .map(d -> toResponse(d, includeDifference))
         .toArray(DenominationResponse[]::new);
 
