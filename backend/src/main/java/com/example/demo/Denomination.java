@@ -3,12 +3,12 @@ package com.example.demo;
 public class Denomination {
     private final int value;
     private int count;
-    private int difference;
+    private Integer difference;
 
     public Denomination(int value) {
         this.value = value;
         this.count = 0;
-        this.difference = 0;
+        this.difference = null;
     }
 
     public int getValue() {
@@ -23,11 +23,11 @@ public class Denomination {
         this.count = count;
     }
 
-    public int getDifference() {
+    public Integer getDifference() {
         return difference;
     }
 
-    public void setDifference(int difference) {
+    public void setDifference(Integer difference) {
         this.difference = difference;
     }
 }
