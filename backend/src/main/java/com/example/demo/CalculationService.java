@@ -44,10 +44,10 @@ public class CalculationService {
         };
 
         for (Denomination denom : denominations) {
-            int count = amount / denom.getValue();
+            int count = amount / denom.getValueInCents();
             denom.setCount(count);
             denom.setDifference(count);
-            amount = amount % denom.getValue();
+            amount = amount % denom.getValueInCents();
         }
 
         return denominations;
