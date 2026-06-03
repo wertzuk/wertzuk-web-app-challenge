@@ -43,4 +43,23 @@ class DemoApplicationTests {
 				.andExpect(jsonPath("$[1].difference").value(1));
 	}
 
+	@Test
+	void calculate_WithInvalidAmount_Returns400() throws Exception {
+		mockMvc.perform(get("/calculate")
+				.param("amount", "abc")
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.error").exists());
+	}
+
+	@Test
+	void calculate_WithInvalidPreviousAmount_Returns400() throws Exception {
+		mockMvc.perform(get("/calculate")
+				.param("amount", "100.00")
+				.param("previousAmount", "abc")
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.error").exists());
+	}
+
 }
