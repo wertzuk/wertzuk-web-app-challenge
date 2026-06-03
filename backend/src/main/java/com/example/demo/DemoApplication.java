@@ -15,6 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 @RestController
 public class DemoApplication {
+
+  public CalculationService service;
+
+  public DemoApplication(CalculationService service) {
+    this.service = service;
+  }
+
   public static void main(String[] args) {
     SpringApplication.run(DemoApplication.class, args);
   }
@@ -26,22 +33,12 @@ public class DemoApplication {
 
     validateAmount(amount);
 
-    int amountInCents = convertParamToInt(amount);
-
-    Denomination[] newDenominations = doCalculation(amountInCents);
-
-    // If previous param is present, calculate previous denomations in order to be
-    // able to get the differences
-    if (previousAmount != null && !previousAmount.isEmpty()) {
+    boolean includeDifference = previousAmount != null && !previousAmount.isEmpty();
+    if (includeDifference) {
       validateAmount(previousAmount);
-
-      int oldAmount = convertParamToInt(previousAmount);
-      Denomination[] oldDenominations = doCalculation(oldAmount);
-      for (int i = 0; i < newDenominations.length; i++) {
-        int difference = newDenominations[i].getCount() - oldDenominations[i].getCount();
-        newDenominations[i].setDifference(difference);
-      }
     }
+
+    Denomination[] newDenominations = service.calculate(amount, previousAmount);
 
     return ResponseEntity.ok().body(newDenominations);
   }
@@ -70,37 +67,4 @@ public class DemoApplication {
           "Invalid amount: " + amount + ". Use a positive number with up to 2 decimal places.");
     }
   }
-
-  private int convertParamToInt(String amount) {
-    return new BigDecimal(amount).movePointRight(2).intValue();
-  }
-
-  private Denomination[] doCalculation(int amount) {
-    Denomination[] denominations = {
-        new Denomination(20000),
-        new Denomination(10000),
-        new Denomination(5000),
-        new Denomination(2000),
-        new Denomination(1000),
-        new Denomination(500),
-        new Denomination(200),
-        new Denomination(100),
-        new Denomination(50),
-        new Denomination(20),
-        new Denomination(10),
-        new Denomination(5),
-        new Denomination(2),
-        new Denomination(1),
-    };
-
-    for (Denomination denom : denominations) {
-      int count = amount / denom.getValue();
-      denom.setCount(count);
-      denom.setDifference(count);
-      amount = amount % denom.getValue();
-    }
-
-    return denominations;
-  }
-
 }
