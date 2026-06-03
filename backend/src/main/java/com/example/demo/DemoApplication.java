@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,7 +28,7 @@ public class DemoApplication {
   }
 
   @GetMapping("/calculate")
-  public ResponseEntity<Denomination[]> calculate(
+  public ResponseEntity<DenominationResponse[]> calculate(
       @RequestParam String amount,
       @RequestParam(required = false) String previousAmount) {
 
@@ -40,7 +41,11 @@ public class DemoApplication {
 
     Denomination[] newDenominations = service.calculate(amount, previousAmount);
 
-    return ResponseEntity.ok().body(newDenominations);
+    DenominationResponse[] response = Arrays.stream(newDenominations)
+        .map(d -> toResponse(d, includeDifference))
+        .toArray(DenominationResponse[]::new);
+
+    return ResponseEntity.ok().body(response);
   }
 
   @ExceptionHandler(InvalidAmountException.class)
@@ -48,6 +53,11 @@ public class DemoApplication {
     Map<String, String> error = new HashMap<>();
     error.put("error", e.getMessage());
     return ResponseEntity.badRequest().body(error);
+  }
+
+  private DenominationResponse toResponse(Denomination d, boolean includeDifference) {
+    String value = new BigDecimal(d.getValue()).movePointLeft(2).toPlainString();
+    return new DenominationResponse(value, d.getCount(), d.getDifference());
   }
 
   private void validateAmount(String amount) {
