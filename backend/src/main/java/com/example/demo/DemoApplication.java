@@ -58,7 +58,7 @@ public class DemoApplication {
 
   private DenominationResponse toResponse(Denomination d, boolean includeDifference) {
     String value = new BigDecimal(d.getValue()).movePointLeft(2).toPlainString();
-    return new DenominationResponse(value, d.getCount(), d.getDifference());
+    return new DenominationResponse(value, d.getCount(), includeDifference ? d.getDifference() : null);
   }
 
   private void validateAmount(String amount) {
