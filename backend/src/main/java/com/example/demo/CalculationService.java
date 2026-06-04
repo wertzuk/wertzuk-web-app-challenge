@@ -8,14 +8,14 @@ import org.springframework.stereotype.Service;
 public class CalculationService {
 
     public Denomination[] calculate(String amount, String previousAmount) {
-        int newAmount = convertAmountToCents(amount);
+        int newAmount = toCents(amount);
         Denomination[] denominations = doCalculation(newAmount);
         boolean includeDifference = previousAmount != null && !previousAmount.isEmpty();
 
         // If previous param is present, calculate previous denomations in order to be
         // able to get the differences
         if (includeDifference) {
-            int oldAmount = convertAmountToCents(previousAmount);
+            int oldAmount = toCents(previousAmount);
             Denomination[] oldDenominations = doCalculation(oldAmount);
             for (int i = 0; i < denominations.length; i++) {
                 int difference = denominations[i].getCount() - oldDenominations[i].getCount();
@@ -43,17 +43,18 @@ public class CalculationService {
             new Denomination(2),
             new Denomination(1),};
 
+        int remaining = amountInCents;
         for (Denomination denom : denominations) {
-            int count = amountInCents / denom.getValueInCents();
+            int count = remaining / denom.getValueInCents();
             denom.setCount(count);
             denom.setDifference(count);
-            amountInCents = amountInCents % denom.getValueInCents();
+            remaining = remaining % denom.getValueInCents();
         }
 
         return denominations;
     }
 
-    private int convertAmountToCents(String amount) {
+    private int toCents(String amount) {
         return new BigDecimal(amount).movePointRight(2).intValue();
     }
 }

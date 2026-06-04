@@ -59,7 +59,7 @@ public class DemoApplication {
     }
 
     private DenominationResponse toResponse(Denomination d, boolean includeDifference) {
-        String value = new BigDecimal(d.getValueInCents()).movePointLeft(2).toPlainString();
+        String value = fromCents(d.getValueInCents());
         return new DenominationResponse(value, d.getCount(), includeDifference ? d.getDifference() : null);
     }
 
@@ -79,5 +79,9 @@ public class DemoApplication {
             throw new InvalidAmountException(
                     "Invalid amount: " + amount + ". Use a positive number with up to 2 decimal places.");
         }
+    }
+
+    private String fromCents(int cents) {
+        return new BigDecimal(cents).movePointLeft(2).toPlainString();
     }
 }
