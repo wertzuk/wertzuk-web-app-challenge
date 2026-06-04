@@ -25,7 +25,7 @@ Runs on `http://localhost:8080`.
 ```bash
 cd frontend
 npm install
-npm start
+npm run start
 ```
 
 Runs on `http://localhost:4200`.
