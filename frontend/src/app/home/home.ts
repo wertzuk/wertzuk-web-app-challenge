@@ -26,13 +26,13 @@ export class Home {
 
   async calculate() {
     if (this.isLoading()) return;
-    this.isCompleted.set(false);
 
     if (this.amount === this.previousAmount) {
       alert('Selber Betrag wie in der vorherigen Berechnung. Bitte ändern Sie den Betrag, um erneut zu berechnen.');
       return;
     }
 
+    this.isCompleted.set(false);
     this.isLoading.set(true);
 
     if (this.previousAmount) {
