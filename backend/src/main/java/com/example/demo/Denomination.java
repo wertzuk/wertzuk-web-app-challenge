@@ -1,14 +1,15 @@
 package com.example.demo;
 
 public class Denomination {
+
     private final int valueInCents;
     private int count;
-    private Integer difference;
+    private int difference;
 
     public Denomination(int value) {
         this.valueInCents = value;
         this.count = 0;
-        this.difference = null;
+        this.difference = 0;
     }
 
     public int getValueInCents() {
@@ -23,11 +24,11 @@ public class Denomination {
         this.count = count;
     }
 
-    public Integer getDifference() {
+    public int getDifference() {
         return difference;
     }
 
-    public void setDifference(Integer difference) {
+    public void setDifference(int difference) {
         this.difference = difference;
     }
 }

@@ -47,7 +47,6 @@ public class CalculationService {
         for (Denomination denom : denominations) {
             int count = remaining / denom.getValueInCents();
             denom.setCount(count);
-            denom.setDifference(count);
             remaining = remaining % denom.getValueInCents();
         }
 
