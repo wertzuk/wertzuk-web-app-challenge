@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CalculationService {
+
     public Denomination[] calculate(String amount, String previousAmount) {
         int newAmount = convertAmountToCents(amount);
         Denomination[] denominations = doCalculation(newAmount);
@@ -25,29 +26,28 @@ public class CalculationService {
         return denominations;
     }
 
-    private Denomination[] doCalculation(int amount) {
+    private Denomination[] doCalculation(int amountInCents) {
         Denomination[] denominations = {
-                new Denomination(20000),
-                new Denomination(10000),
-                new Denomination(5000),
-                new Denomination(2000),
-                new Denomination(1000),
-                new Denomination(500),
-                new Denomination(200),
-                new Denomination(100),
-                new Denomination(50),
-                new Denomination(20),
-                new Denomination(10),
-                new Denomination(5),
-                new Denomination(2),
-                new Denomination(1),
-        };
+            new Denomination(20000),
+            new Denomination(10000),
+            new Denomination(5000),
+            new Denomination(2000),
+            new Denomination(1000),
+            new Denomination(500),
+            new Denomination(200),
+            new Denomination(100),
+            new Denomination(50),
+            new Denomination(20),
+            new Denomination(10),
+            new Denomination(5),
+            new Denomination(2),
+            new Denomination(1),};
 
         for (Denomination denom : denominations) {
-            int count = amount / denom.getValueInCents();
+            int count = amountInCents / denom.getValueInCents();
             denom.setCount(count);
             denom.setDifference(count);
-            amount = amount % denom.getValueInCents();
+            amountInCents = amountInCents % denom.getValueInCents();
         }
 
         return denominations;
