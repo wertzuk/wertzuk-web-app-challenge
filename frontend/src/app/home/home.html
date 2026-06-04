@@ -24,7 +24,7 @@
   Berechne Stückelung...
 }
 
-@if (denominations().length > 0) {
+@if (isCompleted()) {
   <div class="mt-10 flex justify-between">
     <div class="w-1/3">
       <h2 class="text-3xl mb-5">Stückelung für {{ displayedCurrentAmount }}€</h2>
@@ -39,7 +39,7 @@
           @for (d of denominations(); track d.value) {
             @if (d.count > 0) {
               <tr class="border-b even:bg-black/5 border-gray-100 last:border-none">
-                <td class="py-3 px-4 font-medium text-gray-800">€{{ d.value }}</td>
+                <td class="py-3 px-4 font-medium text-gray-800">{{ d.value }}€</td>
                 <td class="py-3 px-4 text-right text-gray-700">{{ d.count }}</td>
               </tr>
             }
@@ -60,7 +60,7 @@
           <tbody>
             @for (d of denominations(); track d.value) {
               <tr class="border-b even:bg-black/5 border-gray-100 last:border-none">
-                <td class="py-3 px-4 font-medium text-gray-800">€{{ d.value }}</td>
+                <td class="py-3 px-4 font-medium text-gray-800">{{ d.value }}€</td>
                 <td class="py-3 px-4 text-right text-gray-700">
                   {{ d.difference > 0 ? '+' + d.difference : d.difference }}
                 </td>
