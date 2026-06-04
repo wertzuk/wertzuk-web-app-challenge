@@ -26,6 +26,7 @@ export class Home {
 
   async calculate() {
     if (this.isLoading()) return;
+    this.isCompleted.set(false);
 
     if (this.amount === this.previousAmount) {
       alert('Selber Betrag wie in der vorherigen Berechnung. Bitte ändern Sie den Betrag, um erneut zu berechnen.');
@@ -41,30 +42,29 @@ export class Home {
     if (this.isUsingFrontend()) {
       console.log('Calculating in frontend');
       const result = this.service.calculateInFrontend(this.amount!, this.previousAmount);
-      this.denominations.set(result);
-      this.isCompleted.set(true);
-      this.displayedPreviousAmount = this.previousAmount;
-      this.displayedCurrentAmount = this.amount;
-      this.previousAmount = this.amount;
-      this.amount = null;
+      this.onCalculationSuccess(result);
       this.isLoading.set(false);
-
     } else {
       console.log('Calculating in backend');
       try {
         const result = await this.service.calculateInBackend(this.amount!, this.previousAmount) as Denomination[];
-        this.denominations.set(result);
-        this.isCompleted.set(true);
-        this.displayedPreviousAmount = this.previousAmount;
-        this.displayedCurrentAmount = this.amount;
-        this.previousAmount = this.amount;
-        this.amount = null;
+        this.onCalculationSuccess(result);
       } catch (error) {
         alert('Serverfehler.Betrag konnte nicht berechnet werden.');
         return;
       } finally {
         this.isLoading.set(false);
       }
+
     }
+  }
+
+  private onCalculationSuccess(result: Denomination[]) {
+    this.denominations.set(result);
+    this.isCompleted.set(true);
+    this.displayedPreviousAmount = this.previousAmount;
+    this.displayedCurrentAmount = this.amount;
+    this.previousAmount = this.amount;
+    this.amount = null;
   }
 }
