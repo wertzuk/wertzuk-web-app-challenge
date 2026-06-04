@@ -1,20 +1,23 @@
 # Money Denomination App
-
+ 
 Calculates how to break down a Euro amount into the smallest number of bills and coins.
-
+ 
 ## Requirements
-
+ 
 - Java 21
-- Maven
 - Node.js 20+
-
 ## Backend
-
+ 
 ```bash
 cd backend
-mvn spring-boot:run
+ 
+# macOS/Linux
+./mvnw spring-boot:run
+ 
+# Windows
+mvnw.cmd spring-boot:run
 ```
-
+ 
 Runs on `http://localhost:8080`.
 
 ## Frontend
