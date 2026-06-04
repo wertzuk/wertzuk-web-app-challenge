@@ -26,8 +26,8 @@
 
 @if (denominations().length > 0) {
   <div class="mt-10 flex justify-between">
-    <div class="w-1/4">
-      <h2 class="text-3xl mb-5">Stückelung</h2>
+    <div class="w-1/3">
+      <h2 class="text-3xl mb-5">Stückelung für {{ displayedCurrentAmount }}€</h2>
       <table class="text-sm border border-slate-300 border-collapse">
         <thead>
           <tr class="border-b border-gray-200">
@@ -48,8 +48,8 @@
       </table>
     </div>
     @if (!isFirstCalculation()) {
-      <div class="w-1/4">
-        <h2 class="text-3xl mb-5">Differenz</h2>
+      <div class="w-1/3">
+        <h2 class="text-3xl mb-5">Differenz zu {{ displayedPreviousAmount }}€</h2>
         <table class="text-sm border border-slate-300 border-collapse">
           <thead>
             <tr class="border-b border-gray-200">
