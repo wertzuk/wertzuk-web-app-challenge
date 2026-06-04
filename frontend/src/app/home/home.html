@@ -11,6 +11,12 @@
     </form>
 </div>
 
+@if(isLoading()) {
+Berechne Stückelung...
+}
+
+@if(denominations().length > 0) {
+
 <div class="mt-10 flex justify-between ">
     <div class="w-1/4">
         <h2 class="text-3xl mb-5">Stückelung</h2>
@@ -22,26 +28,12 @@
                 </tr>
             </thead>
             <tbody>
+                @for (d of denominations(); track d.value) {
                 <tr class="border-b even:bg-black/5 border-gray-100 last:border-none">
-                    <td class="py-3 px-4 font-medium text-gray-800">€100.00</td>
-                    <td class="py-3 px-4 text-right text-gray-700">3</td>
+                    <td class="py-3 px-4 font-medium text-gray-800">€{{ d.value }}</td>
+                    <td class="py-3 px-4 text-right text-gray-700">{{ d.count }}</td>
                 </tr>
-                <tr class="border-b even:bg-black/5 border-gray-100">
-                    <td class="py-3 px-4 font-medium text-gray-800">€100.00</td>
-                    <td class="py-3 px-4 text-right text-gray-700">3</td>
-                </tr>
-                <tr class="border-b even:bg-black/5 border-gray-100">
-                    <td class="py-3 px-4 font-medium text-gray-800">€100.00</td>
-                    <td class="py-3 px-4 text-right text-gray-700">3</td>
-                </tr>
-                <tr class="border-b even:bg-black/5 border-gray-100">
-                    <td class="py-3 px-4 font-medium text-gray-800">€100.00</td>
-                    <td class="py-3 px-4 text-right text-gray-700">3</td>
-                </tr>
-                <tr class="border-b even:bg-black/5 border-gray-100 last:border-none">
-                    <td class="py-3 px-4 font-medium text-gray-800">€100.00</td>
-                    <td class="py-3 px-4 text-right text-gray-700">3</td>
-                </tr>
+                }
             </tbody>
         </table>
     </div>
@@ -55,11 +47,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="border-b border-gray-100 even:bg-black/5 last:border-none">
-                    <td class="py-3 px-4 font-medium text-gray-800">€100.00</td>
-                    <td class="py-3 px-4 text-right text-gray-700">3</td>
+                @for (d of denominations(); track d.value) {
+                <tr class="border-b even:bg-black/5 border-gray-100 last:border-none">
+                    <td class="py-3 px-4 font-medium text-gray-800">€{{ d.value }}</td>
+                    <td class="py-3 px-4 text-right text-gray-700">{{ d.difference }}</td>
                 </tr>
+                }
             </tbody>
         </table>
     </div>
 </div>
+}
