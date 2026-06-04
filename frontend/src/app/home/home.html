@@ -14,6 +14,27 @@
       required
     />
 
+    <div class="flex gap-8 py-2">
+      <label class="flex items-center gap-2 cursor-pointer">
+        <input
+          type="radio"
+          [value]="true"
+          [checked]="isUsingFrontend()"
+          (change)="isUsingFrontend.set(true)"
+        />
+        <span class="text-sm text-gray-600">Frontend</span>
+      </label>
+      <label class="flex items-center gap-2 cursor-pointer">
+        <input
+          type="radio"
+          [value]="false"
+          [checked]="!isUsingFrontend()"
+          (change)="isUsingFrontend.set(false)"
+        />
+        <span class="text-sm text-gray-600">Backend</span>
+      </label>
+    </div>
+
     <button class="block border border-gray-100 bg-blue-50 p-2 mt-4 rounded cursor-pointer">
       Berechnen
     </button>
