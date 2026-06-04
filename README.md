@@ -1,5 +1,7 @@
 # Money Denomination App
 
+Calculates how to break down a Euro amount into the smallest number of bills and coins.
+
 ## Requirements
 
 - Java 21
@@ -20,7 +22,7 @@ Runs on `http://localhost:8080`.
 ```bash
 cd frontend
 npm install
-ng serve
+npm start
 ```
 
 Runs on `http://localhost:4200`.
