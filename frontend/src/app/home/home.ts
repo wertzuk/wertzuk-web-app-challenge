@@ -6,7 +6,6 @@ import { Denomination } from '../models';
   selector: 'app-home',
   imports: [FormsModule],
   templateUrl: './home.html',
-
 })
 export class Home {
   amount: number | null = null;
@@ -19,7 +18,6 @@ export class Home {
 
   denominations = signal<Denomination[]>([]);
 
-
   async calculate() {
     console.log('Calculate Denomatinations for: ', this.amount);
     if (this.previousAmount()) {
@@ -29,7 +27,7 @@ export class Home {
     this.isLoading.set(true);
     let url = `http://localhost:8080/calculate?amount=${this.amount}`;
     if (this.previousAmount()) {
-      url += `&previousAmount=${this.previousAmount()}`
+      url += `&previousAmount=${this.previousAmount()}`;
     }
 
     console.log('Call Endpoint', url);
@@ -43,7 +41,6 @@ export class Home {
     }
 
     this.previousAmount.set(this.amount);
-    this.denominations.set(await response.json() as Denomination[]);
+    this.denominations.set((await response.json()) as Denomination[]);
   }
-
 }
