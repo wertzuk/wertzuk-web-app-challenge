@@ -59,6 +59,10 @@ export class Home {
     }
   }
 
+  formatValue(value: number): string {
+    return value < 1 ? `${Math.round(value * 100)}c` : `${value}€`;
+  }
+
   private onCalculationSuccess(result: Denomination[]) {
     this.denominations.set(result);
     this.isCompleted.set(true);

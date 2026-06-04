@@ -8,7 +8,7 @@
       min="0.01"
       max="2000000"
       step="0.01"
-      placeholder="123.23"
+      placeholder="123,68"
       class="w-36 px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition"
       [(ngModel)]="amount"
       required
@@ -51,7 +51,7 @@
       <h2 class="text-3xl mb-5">Stückelung für {{ displayedCurrentAmount }}€</h2>
       <table class="text-sm border border-slate-300 border-collapse">
         <thead>
-          <tr class="border-b border-gray-200">
+          <tr class="border border-gray-500">
             <th class="text-left py-3 px-4 font-medium text-gray-500">Schein/Münze</th>
             <th class="text-right py-3 px-4 font-medium text-gray-500">Anzahl</th>
           </tr>
@@ -60,7 +60,9 @@
           @for (d of denominations(); track d.value) {
             @if (d.count > 0) {
               <tr class="border-b even:bg-black/5 border-gray-100 last:border-none">
-                <td class="py-3 px-4 font-medium text-gray-800">{{ d.value }}€</td>
+                <td class="py-3 px-4 font-medium text-gray-800">
+                  {{ formatValue(d.value) }}
+                </td>
                 <td class="py-3 px-4 text-right text-gray-700">{{ d.count }}</td>
               </tr>
             }
@@ -73,7 +75,7 @@
         <h2 class="text-3xl mb-5">Differenz zu {{ displayedPreviousAmount }}€</h2>
         <table class="text-sm border border-slate-300 border-collapse">
           <thead>
-            <tr class="border-b border-gray-200">
+            <tr class="border border-gray-500">
               <th class="text-left py-3 px-4 font-medium text-gray-500">Wert</th>
               <th class="text-right py-3 px-4 font-medium text-gray-500">Differenz</th>
             </tr>
@@ -81,7 +83,9 @@
           <tbody>
             @for (d of denominations(); track d.value) {
               <tr class="border-b even:bg-black/5 border-gray-100 last:border-none">
-                <td class="py-3 px-4 font-medium text-gray-800">{{ d.value }}€</td>
+                <td class="py-3 px-4 font-medium text-gray-800">
+                  {{ formatValue(d.value) }}
+                </td>
                 <td class="py-3 px-4 text-right text-gray-700">
                   {{ d.difference > 0 ? '+' + d.difference : d.difference }}
                 </td>
