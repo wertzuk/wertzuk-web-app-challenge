@@ -37,10 +37,12 @@
         </thead>
         <tbody>
           @for (d of denominations(); track d.value) {
-            <tr class="border-b even:bg-black/5 border-gray-100 last:border-none">
-              <td class="py-3 px-4 font-medium text-gray-800">€{{ d.value }}</td>
-              <td class="py-3 px-4 text-right text-gray-700">{{ d.count }}</td>
-            </tr>
+            @if (d.count > 0) {
+              <tr class="border-b even:bg-black/5 border-gray-100 last:border-none">
+                <td class="py-3 px-4 font-medium text-gray-800">€{{ d.value }}</td>
+                <td class="py-3 px-4 text-right text-gray-700">{{ d.count }}</td>
+              </tr>
+            }
           }
         </tbody>
       </table>
