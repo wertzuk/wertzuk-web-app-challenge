@@ -1,9 +1,9 @@
 <div>
-    <form class="space-y-2">
+    <form class="space-y-2" ngNativeValidate (ngSubmit)="calculate()">
         <label for="amount" class="block">Betrag</label>
         <input type="number" name="amount" id="amount" min="0.01" max="2000000" step="0.01" placeholder="123.23"
             class="w-36 px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition"
-            required>
+            [(ngModel)]="amount" required>
 
         <button class="block border border-gray-100 bg-blue-50 p-2 mt-4 rounded cursor-pointer">
             Berechnen
