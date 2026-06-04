@@ -16,7 +16,7 @@ export class Home {
   previousAmount: number | null = null;
   isLoading = signal(false);
   isCompleted = signal(false);
-  isUsingFrontend = signal(false);
+  isUsingFrontend = signal(true);
   isFirstCalculation = signal(true);
 
   displayedCurrentAmount: number | null = null;
@@ -25,7 +25,6 @@ export class Home {
   denominations = signal<Denomination[]>([]);
 
   async calculate() {
-    console.log(this.service)
     if (this.isLoading()) return;
 
     if (this.amount === this.previousAmount) {
@@ -39,21 +38,33 @@ export class Home {
       this.isFirstCalculation.set(false);
     }
 
-
-    try {
-      const result = await this.service.calculateInBackend(this.amount!, this.previousAmount) as Denomination[];
+    if (this.isUsingFrontend()) {
+      console.log('Calculating in frontend');
+      const result = this.service.calculateInFrontend(this.amount!, this.previousAmount);
       this.denominations.set(result);
       this.isCompleted.set(true);
       this.displayedPreviousAmount = this.previousAmount;
       this.displayedCurrentAmount = this.amount;
       this.previousAmount = this.amount;
       this.amount = null;
-    } catch (error) {
-      alert('Serverfehler.Betrag konnte nicht berechnet werden.');
-      return;
-    } finally {
       this.isLoading.set(false);
-    }
 
+    } else {
+      console.log('Calculating in backend');
+      try {
+        const result = await this.service.calculateInBackend(this.amount!, this.previousAmount) as Denomination[];
+        this.denominations.set(result);
+        this.isCompleted.set(true);
+        this.displayedPreviousAmount = this.previousAmount;
+        this.displayedCurrentAmount = this.amount;
+        this.previousAmount = this.amount;
+        this.amount = null;
+      } catch (error) {
+        alert('Serverfehler.Betrag konnte nicht berechnet werden.');
+        return;
+      } finally {
+        this.isLoading.set(false);
+      }
+    }
   }
 }
