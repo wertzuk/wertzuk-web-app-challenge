@@ -1,6 +1,7 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Denomination } from '../models';
+import { CalculationService } from '../calculation-service';
 
 @Component({
   selector: 'app-home',
@@ -8,8 +9,9 @@ import { Denomination } from '../models';
   templateUrl: './home.html',
 })
 export class Home {
-  amount: number | null = null;
+  private service = inject(CalculationService);
 
+  amount: number | null = null;
 
   previousAmount: number | null = null;
   isLoading = signal(false);
@@ -23,6 +25,7 @@ export class Home {
   denominations = signal<Denomination[]>([]);
 
   async calculate() {
+    console.log(this.service)
     if (this.isLoading()) return;
 
     if (this.amount === this.previousAmount) {
@@ -36,25 +39,21 @@ export class Home {
       this.isFirstCalculation.set(false);
     }
 
-    let url = `http://localhost:8080/calculate?amount=${this.amount}`;
-    if (this.previousAmount) {
-      url += `&previousAmount=${this.previousAmount}`;
-    }
 
-    console.log('Call Endpoint', url);
-
-    const response = await fetch(url);
-    this.isLoading.set(false);
-    this.isCompleted.set(true);
-    if (!response.ok) {
-      alert('Betrag konnte nicht berechnet werden.');
+    try {
+      const result = await this.service.calculateInBackend(this.amount!, this.previousAmount) as Denomination[];
+      this.denominations.set(result);
+      this.isCompleted.set(true);
+      this.displayedPreviousAmount = this.previousAmount;
+      this.displayedCurrentAmount = this.amount;
+      this.previousAmount = this.amount;
+      this.amount = null;
+    } catch (error) {
+      alert('Serverfehler.Betrag konnte nicht berechnet werden.');
       return;
+    } finally {
+      this.isLoading.set(false);
     }
-    this.displayedPreviousAmount = this.previousAmount;
-    this.displayedCurrentAmount = this.amount;
-    this.previousAmount = this.amount;
-    this.denominations.set((await response.json()) as Denomination[]);
 
-    this.amount = null;
   }
 }
