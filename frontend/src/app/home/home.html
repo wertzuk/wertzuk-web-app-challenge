@@ -1,0 +1,65 @@
+<div>
+    <form class="space-y-2">
+        <label for="amount" class="block">Betrag</label>
+        <input type="number" name="amount" id="amount" min="0.01" max="2000000" step="0.01" placeholder="123.23"
+            class="w-36 px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition"
+            required>
+
+        <button class="block border border-gray-100 bg-blue-50 p-2 mt-4 rounded cursor-pointer">
+            Berechnen
+        </button>
+    </form>
+</div>
+
+<div class="mt-10 flex justify-between ">
+    <div class="w-1/4">
+        <h2 class="text-3xl mb-5">Stückelung</h2>
+        <table class=" text-sm border border-slate-300 border-collapse">
+            <thead>
+                <tr class="border-b border-gray-200">
+                    <th class="text-left py-3 px-4 font-medium text-gray-500">Schein/Münze</th>
+                    <th class="text-right py-3 px-4 font-medium text-gray-500">Anzahl</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="border-b even:bg-black/5 border-gray-100 last:border-none">
+                    <td class="py-3 px-4 font-medium text-gray-800">€100.00</td>
+                    <td class="py-3 px-4 text-right text-gray-700">3</td>
+                </tr>
+                <tr class="border-b even:bg-black/5 border-gray-100">
+                    <td class="py-3 px-4 font-medium text-gray-800">€100.00</td>
+                    <td class="py-3 px-4 text-right text-gray-700">3</td>
+                </tr>
+                <tr class="border-b even:bg-black/5 border-gray-100">
+                    <td class="py-3 px-4 font-medium text-gray-800">€100.00</td>
+                    <td class="py-3 px-4 text-right text-gray-700">3</td>
+                </tr>
+                <tr class="border-b even:bg-black/5 border-gray-100">
+                    <td class="py-3 px-4 font-medium text-gray-800">€100.00</td>
+                    <td class="py-3 px-4 text-right text-gray-700">3</td>
+                </tr>
+                <tr class="border-b even:bg-black/5 border-gray-100 last:border-none">
+                    <td class="py-3 px-4 font-medium text-gray-800">€100.00</td>
+                    <td class="py-3 px-4 text-right text-gray-700">3</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="w-1/4">
+        <h2 class="text-3xl mb-5">Differenz</h2>
+        <table class="text-sm border border-slate-300 border-collapse">
+            <thead>
+                <tr class="border-b border-gray-200">
+                    <th class="text-left py-3 px-4 font-medium text-gray-500">Wert</th>
+                    <th class="text-right py-3 px-4 font-medium text-gray-500">Differenz</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="border-b border-gray-100 even:bg-black/5 last:border-none">
+                    <td class="py-3 px-4 font-medium text-gray-800">€100.00</td>
+                    <td class="py-3 px-4 text-right text-gray-700">3</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
