@@ -19,12 +19,18 @@ export class Home {
   denominations = signal<Denomination[]>([]);
 
   async calculate() {
-    console.log('Calculate Denomatinations for: ', this.amount);
+    if (this.isLoading()) return;
+    if (this.amount === this.previousAmount()) {
+      alert('Selber Betrag wie in der vorherigen Berechnung. Bitte ändern Sie den Betrag, um erneut zu berechnen.');
+      return;
+    }
+
+    this.isLoading.set(true);
+
     if (this.previousAmount()) {
       this.isFirstCalculation.set(false);
     }
 
-    this.isLoading.set(true);
     let url = `http://localhost:8080/calculate?amount=${this.amount}`;
     if (this.previousAmount()) {
       url += `&previousAmount=${this.previousAmount()}`;
@@ -42,5 +48,7 @@ export class Home {
 
     this.previousAmount.set(this.amount);
     this.denominations.set((await response.json()) as Denomination[]);
+
+    this.amount = null;
   }
 }
